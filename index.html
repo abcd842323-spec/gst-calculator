@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<title>GST Calculator — India | Add & Remove GST, CGST + SGST Split | By Mahesh Kumar</title>
+<meta name="description" content="Free GST Calculator for India. Add or remove GST at 5%, 12%, 18%, 28% with CGST + SGST and IGST breakup.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F1E8; --surface:#FFFFFF; --surface2:#FFFBEB; --ink:#17201B; --muted:#5C6B61; --line:#E3DDCE;
+  --teal:#0B5D4E; --teal2:#0E7A65; --saffron:#D97706; --saffron-bg:#FEF3C7; --green-bg:#ECFDF5;
+  --radius:18px; --shadow:0 10px 30px rgba(23,32,27,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#111613; --surface:#1A201C; --surface2:#1E241F; --ink:#F1EDE2; --muted:#A8B5AB; --line:#2E3831; --teal:#34D399; --teal2:#34D399; --saffron:#FBBF24; --saffron-bg:#2A2210; --green-bg:#122A22; --shadow:0 10px 30px rgba(0,0,0,.35); }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Public Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55}
+a{color:var(--teal)}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 18px 48px}
+.hero{padding:22px 0 8px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border-radius:999px}
+.eyebrow i{width:7px;height:7px;background:#F59E0B;border-radius:50%;display:block}
+h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(38px,6vw,62px);line-height:.95;letter-spacing:-.02em;margin:16px 0 12px;font-weight:800}
+h1 em{font-style:normal;color:var(--teal)}
+.lead{font-size:17px;color:var(--muted);max-width:640px;margin:0}
+.lead strong{color:var(--ink)}
+.meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.meta span{font-size:13px;font-weight:600;background:var(--surface);border:1px solid var(--line);padding:7px 11px;border-radius:999px}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin-top:22px;align-items:start}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.card h2{margin:0 0 4px;font-size:18px}
+.card p.sub{margin:0 0 18px;color:var(--muted);font-size:14px}
+.label{font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
+.label:first-child{margin-top:0}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px}
+.seg button{border:0;background:transparent;padding:11px 10px;border-radius:9px;font-weight:700;font-size:14px;cursor:pointer;color:var(--muted);min-height:44px}
+.seg button.active{background:var(--teal);color:#fff;box-shadow:0 4px 12px rgba(11,93,78,.25)}
+@media (prefers-color-scheme: dark){.seg button.active{color:#0B1F19}}
+.amount-wrap{position:relative}
+.amount-wrap span{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-weight:800;font-size:20px;color:var(--muted)}
+input[type=number],input[type=text]{width:100%;padding:15px 16px 15px 38px;font-size:22px;font-weight:800;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);outline:none}
+input:focus{border-color:var(--teal)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.chips button{border:1px solid var(--line);background:var(--surface);padding:8px 12px;border-radius:999px;font-weight:600;font-size:13px;cursor:pointer;min-height:36px;color:var(--ink)}
+.chips button:hover{border-color:var(--teal);color:var(--teal)}
+.slabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.slabs button{padding:13px 6px;border:2px solid var(--line);background:var(--surface);border-radius:12px;cursor:pointer;text-align:center;min-height:56px;color:var(--ink)}
+.slabs button b{display:block;font-size:19px;line-height:1}
+.slabs button small{font-size:11px;color:var(--muted);font-weight:600}
+.slabs button.active{border-color:var(--saffron);background:var(--saffron-bg)}
+.custom{display:flex;gap:8px;align-items:center;margin-top:9px}
+.custom input{padding:10px 12px;font-size:15px;padding-left:12px}
+.custom label{font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap}
+.toggle-row{display:flex;gap:8px}
+.toggle-row button{flex:1;padding:12px;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;cursor:pointer;text-align:left;min-height:52px;color:var(--ink)}
+.toggle-row button b{display:block;font-size:14px}
+.toggle-row button small{color:var(--muted);font-size:12px}
+.toggle-row button.active{border-color:var(--teal);background:var(--green-bg)}
+/* Result */
+.result-card{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+@media (prefers-color-scheme: dark){.result-card{background:#0E2A22;border-color:#1E4D3E;color:#ECFDF5}}
+.result-card .label{color:#9FB3A8}
+.total-label{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
+.total{font-family:"JetBrains Mono",monospace;font-size:clamp(36px,5vw,48px);font-weight:700;line-height:1;margin:6px 0 4px;letter-spacing:-.03em}
+.total-note{font-size:13px;opacity:.75;margin:0 0 18px}
+.breakdown{border-top:1px solid rgba(255,255,255,.16);padding-top:16px;display:grid;gap:11px}
+.row{display:flex;justify-content:space-between;gap:16px;font-size:15px}
+.row span{opacity:.85}.row b{font-family:"JetBrains Mono",monospace;font-size:15px;white-space:nowrap}
+.row.gst b{color:#FBBF24}
+.row.subrow{font-size:14px;padding-left:14px;border-left:2px solid rgba(251,191,36,.5)}
+.bar{height:12px;border-radius:999px;overflow:hidden;display:flex;background:rgba(255,255,255,.14);margin:16px 0 6px}
+.bar i{display:block;height:100%}
+.bar .base{background:#34D399}.bar .tax{background:#F59E0B}
+.legend{display:flex;gap:16px;font-size:12px;opacity:.85}
+.legend i{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px}
+.formula{background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.25);border-radius:10px;padding:12px 14px;font-size:13.5px;margin-top:16px;line-height:1.6}
+.actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.actions button{flex:1;min-height:44px;border-radius:10px;border:0;font-weight:700;cursor:pointer;padding:11px 14px;font-size:14px}
+.btn-copy{background:#F59E0B;color:#1A1200}
+.btn-reset{background:rgba(255,255,255,.12);color:inherit;border:1px solid rgba(255,255,255,.2)!important}
+/* Table */
+.section{margin-top:22px}
+.section h2{font-family:"Fraunces",Georgia,serif;font-size:28px;margin:0 0 6px}
+.section>p{color:var(--muted);margin:0 0 14px;max-width:700px}
+.table-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th{text-align:left;background:var(--bg);padding:13px 16px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td{padding:13px 16px;border-top:1px solid var(--line)}
+td.num,th.num{text-align:right;font-family:"JetBrains Mono",monospace;font-weight:600}
+tr.hl td{background:var(--saffron-bg);font-weight:700}
+@media(max-width:560px){ .hide-m{display:none} td,th{padding:11px 9px;font-size:13px} td.num,th.num{font-size:12.5px} .table-card{overflow-x:hidden} table{table-layout:fixed} th:first-child{width:18%} }
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:720px){.cols{grid-template-columns:1fr}}
+.info{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.info h3{margin:0 0 8px;font-size:16px}
+.info p,.info li{color:var(--muted);font-size:14.5px}
+.info ul{margin:8px 0 0;padding-left:18px}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px 16px;margin-bottom:9px}
+.faq summary{font-weight:700;cursor:pointer;padding:12px 0;min-height:44px;display:flex;align-items:center}
+.faq p{color:var(--muted);margin:0 0 14px;font-size:14.5px}
+.note{font-size:13px;color:var(--muted);background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:18px}
+footer{margin-top:28px;color:var(--muted);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow"><i></i> India • GST Calculator</span>
+    <h1>Add GST ya<br><em>GST hatao</em> —<br>ek click me.</h1>
+    <p class="lead">Bill banane se pehle exact hisaab lagao. <strong>Exclusive</strong> amount par GST jodo, ya <strong>inclusive</strong> price se GST nikalo — CGST + SGST / IGST breakup ke saath.</p>
+    <div class="meta"><span>✓ 5% · 12% · 18% · 28% slabs</span><span>✓ CGST + SGST split</span><span>✓ IGST option</span><span>✓ Koi sign-up nahi</span></div>
+  </header>
+
+  <div class="grid">
+    <!-- CONTROLS -->
+    <section class="card" aria-label="Calculator inputs">
+      <h2>Apna amount daalo</h2>
+      <p class="sub">Mode chuno, amount likho, slab select karo — result right side turant badlega.</p>
+
+      <div class="label">1 · Calculation mode</div>
+      <div class="seg" role="group" aria-label="Mode">
+        <button id="modeEx" class="active" onclick="setMode('ex')">Add GST<br><small style="font-weight:500;opacity:.85">Exclusive — GST alag se</small></button>
+        <button id="modeIn" onclick="setMode('in')">Remove GST<br><small style="font-weight:500;opacity:.85">Inclusive — GST included</small></button>
+      </div>
+
+      <div class="label" id="amtLabel">2 · Amount (GST ke bina) — ₹</div>
+      <div class="amount-wrap"><span>₹</span><input type="number" id="amount" value="10000" min="0" inputmode="decimal" oninput="calc()"></div>
+      <div class="chips">
+        <button onclick="setAmt(1000)">₹1,000</button><button onclick="setAmt(5000)">₹5,000</button><button onclick="setAmt(10000)">₹10,000</button><button onclick="setAmt(50000)">₹50,000</button><button onclick="setAmt(100000)">₹1 Lakh</button>
+      </div>
+
+      <div class="label">3 · GST slab</div>
+      <div class="slabs" id="slabs">
+        <button data-r="5" onclick="setRate(5,this)"><b>5%</b><small>Essentials</small></button>
+        <button data-r="12" onclick="setRate(12,this)"><b>12%</b><small>Standard</small></button>
+        <button data-r="18" class="active" onclick="setRate(18,this)"><b>18%</b><small>Most services</small></button>
+        <button data-r="28" onclick="setRate(28,this)"><b>28%</b><small>Luxury</small></button>
+      </div>
+      <div class="custom"><label for="customRate">Ya custom rate:</label><input type="number" id="customRate" placeholder="e.g. 0, 3, 40" min="0" max="100" step="0.1" oninput="onCustom()"><span style="font-weight:700;color:var(--muted)">%</span></div>
+
+      <div class="label">4 · Sale kahan hui? (Place of supply)</div>
+      <div class="toggle-row">
+        <button id="intraBtn" class="active" onclick="setSupply('intra')"><b>Same State</b><small>CGST + SGST lagega</small></button>
+        <button id="interBtn" onclick="setSupply('inter')"><b>Other State</b><small>Sirf IGST lagega</small></button>
+      </div>
+      <p style="font-size:13px;color:var(--muted);margin:12px 0 0">Seller aur buyer ek hi state me hain to GST aadha-aadha CGST (Centre) aur SGST (State) me batta hai. Dusri state me sale par poora IGST lagta hai.</p>
+    </section>
+
+    <!-- RESULT -->
+    <section class="card result-card" aria-label="Result" aria-live="polite">
+      <div class="total-label" id="totalLabel">Total payable (GST ke saath)</div>
+      <div class="total" id="totalVal">₹11,800.00</div>
+      <p class="total-note" id="totalNote">₹10,000.00 base + ₹1,800.00 GST @ 18%</p>
+
+      <div class="bar"><i class="base" id="barBase" style="width:84.7%"></i><i class="tax" id="barTax" style="width:15.3%"></i></div>
+      <div class="legend"><span><i style="background:#34D399"></i>Base amount</span><span><i style="background:#F59E0B"></i>GST</span></div>
+
+      <div class="breakdown">
+        <div class="row"><span>Base amount (taxable value)</span><b id="rBase">₹10,000.00</b></div>
+        <div class="row gst"><span>Total GST @ <span id="rRate">18</span>%</span><b id="rGst">₹1,800.00</b></div>
+        <div id="splitIntra">
+          <div class="row subrow"><span>CGST @ <span class="halfRate">9</span>% (Centre)</span><b id="rCgst">₹900.00</b></div>
+          <div class="row subrow" style="margin-top:11px"><span>SGST @ <span class="halfRate">9</span>% (State)</span><b id="rSgst">₹900.00</b></div>
+        </div>
+        <div id="splitInter" style="display:none">
+          <div class="row subrow"><span>IGST @ <span id="igstRate">18</span>% (Integrated)</span><b id="rIgst">₹1,800.00</b></div>
+        </div>
+        <div class="row" style="border-top:1px solid rgba(255,255,255,.16);padding-top:12px"><span><strong>Grand total</strong></span><b id="rTotal">₹11,800.00</b></div>
+      </div>
+
+      <div class="formula" id="formulaBox">Formula: GST = ₹10,000 × 18% = ₹1,800 · Total = ₹10,000 + ₹1,800 = ₹11,800</div>
+
+      <div class="actions">
+        <button class="btn-copy" id="copyBtn" onclick="copyResult()">📋 Bill ke liye copy karo</button>
+        <button class="btn-reset" onclick="resetAll()">Reset</button>
+      </div>
+      <p id="copyMsg" style="font-size:13px;margin:10px 0 0;display:none">✓ Copied! Ab WhatsApp / bill par paste kar sakte ho.</p>
+    </section>
+  </div>
+
+  <!-- ALL SLABS COMPARISON -->
+  <section class="section">
+    <h2>Isi amount par saare slabs</h2>
+    <p>Tumhare amount par har slab ka GST aur total — compare karke dekho kaunsa slab kitna fark dalta hai. Jo slab upar select hai wo highlight hai.</p>
+    <div class="table-card"><table>
+      <thead><tr><th>GST Slab</th><th class="num">Base</th><th class="num">GST Amount</th><th class="num hide-m">CGST</th><th class="num hide-m">SGST</th><th class="num">Total</th></tr></thead>
+      <tbody id="compBody"></tbody>
+    </table></div>
+  </section>
+
+  <section class="section cols">
+    <div class="info">
+      <h3>🏛️ CGST + SGST vs IGST — fark kya hai?</h3>
+      <p>GST ek hi tax hai, bas jama kahan hota hai ye sale ki jagah par depend karta hai:</p>
+      <ul>
+        <li><strong>Same state (Intra-state):</strong> GST aadha Centre ko (CGST) + aadha State ko (SGST). 18% = 9% + 9%.</li>
+        <li><strong>Dusri state (Inter-state):</strong> Poora GST IGST ke roop me Centre ko jata hai. 18% = 18% IGST.</li>
+        <li>Total GST dono case me <strong>same</strong> rehta hai — sirf breakup badalta hai.</li>
+      </ul>
+    </div>
+    <div class="info">
+      <h3>📐 Formula yaad rakho</h3>
+      <p><strong>GST jodna hai (Exclusive):</strong></p>
+      <ul><li>GST = Amount × Rate ÷ 100</li><li>Total = Amount + GST</li></ul>
+      <p style="margin-top:12px"><strong>GST nikalna hai (Inclusive):</strong></p>
+      <ul><li>Base = Price × 100 ÷ (100 + Rate)</li><li>GST = Price − Base</li></ul>
+      <p style="margin-top:12px">Example: ₹11,800 ki cheez @18% inclusive → Base = 11,800 × 100 ÷ 118 = ₹10,000, GST = ₹1,800.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>GST slabs — kis par kitna?</h2>
+    <p>India me GST ke mukhya slabs 5%, 12%, 18% aur 28% hain. 18% sabse common hai — zyadatar services aur bahut se goods isi par aate hain. Apne product/service ka exact slab hamesha GST rate schedule / apne CA se confirm karo, kyuki rates GST Council ke faislo se badal sakte hain.</p>
+    <div class="table-card"><table>
+      <thead><tr><th>Slab</th><th>CGST</th><th>SGST</th><th>IGST</th><th class="hide-m">Aam taur par</th></tr></thead>
+      <tbody>
+        <tr><td><strong>5%</strong></td><td>2.5%</td><td>2.5%</td><td>5%</td><td class="hide-m">Roz-marra / essential items, kuch transport & food services</td></tr>
+        <tr><td><strong>12%</strong></td><td>6%</td><td>6%</td><td>12%</td><td class="hide-m">Kuch processed food, business-class items</td></tr>
+        <tr><td><strong>18%</strong></td><td>9%</td><td>9%</td><td>18%</td><td class="hide-m">Zyadatar services, electronics, restaurants (AC) aadi</td></tr>
+        <tr><td><strong>28%</strong></td><td>14%</td><td>14%</td><td>28%</td><td class="hide-m">Luxury goods, automobiles, aerated drinks aadi</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section faq">
+    <h2>Aksar puche jaane wale sawaal</h2>
+    <details open><summary>GST inclusive price se base amount kaise nikalein?</summary><p>Price ko (100 + rate) se divide karke 100 se multiply karo. Jaise ₹1,180 @18% inclusive hai to base = 1,180 × 100 ÷ 118 = ₹1,000 aur GST = ₹180. Upar calculator me “Remove GST” mode yahi karta hai.</p></details>
+    <details><summary>Invoice par CGST/SGST alag-alag dikhana zaroori hai?</summary><p>Haan, same-state sale ke invoice par CGST aur SGST alag lines me dikhaye jate hain, aur inter-state sale par IGST ek line me. Isi liye ye calculator dono breakup deta hai taaki bill copy karna asaan ho.</p></details>
+    <details><summary>Kya main apna custom GST rate use kar sakta hoon?</summary><p>Haan — slab ke neeche custom rate box me koi bhi rate (jaise 0% ya koi special rate) daalo, calculation usi par ho jayega.</p></details>
+    <details><summary>Ye calculator kitna sahi hai?</summary><p>Calculation standard GST formula par hai aur paise 2 decimal tak round hote hain. Filing ya bade invoice se pehle apne accountant se final figure confirm kar lo — ye tool estimate ke liye hai, tax advice nahi.</p></details>
+  </section>
+
+  <div class="note">⚠️ <strong>Note:</strong> GST rates aur slabs GST Council ke notifications se badal sakte hain. Ye calculator 5% / 12% / 18% / 28% mukhya slabs par bana hai. Apne item ka sahi slab hamesha official rate schedule se verify karo.</div>
+
+  <footer>GST Calculator · India — Shopkeepers, freelancers aur small business ke liye free tool.</footer>
+</div>
+
+<script>
+var mode='ex', rate=18, supply='intra';
+function fmt(n){return '₹'+Number(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function num(id){var v=parseFloat(document.getElementById(id).value);return isNaN(v)||v<0?0:v;}
+function setMode(m){mode=m;document.getElementById('modeEx').classList.toggle('active',m==='ex');document.getElementById('modeIn').classList.toggle('active',m==='in');document.getElementById('amtLabel').textContent=m==='ex'?'2 · Amount (GST ke bina) — ₹':'2 · Amount (GST ke saath) — ₹';calc();}
+function setAmt(v){document.getElementById('amount').value=v;calc();}
+function setRate(r,btn){rate=r;document.getElementById('customRate').value='';document.querySelectorAll('#slabs button').forEach(function(b){b.classList.toggle('active',parseFloat(b.dataset.r)===r)});calc();}
+function onCustom(){var v=parseFloat(document.getElementById('customRate').value);if(!isNaN(v)&&v>=0){rate=v;document.querySelectorAll('#slabs button').forEach(function(b){b.classList.remove('active')});calc();}}
+function setSupply(s){supply=s;document.getElementById('intraBtn').classList.toggle('active',s==='intra');document.getElementById('interBtn').classList.toggle('active',s==='inter');calc();}
+function resetAll(){document.getElementById('amount').value=10000;setMode('ex');setSupply('intra');setRate(18,document.querySelector('[data-r="18"]'));}
+
+function compute(amount,r,m){
+  var base,gst,total;
+  if(m==='ex'){base=amount;gst=base*r/100;total=base+gst;}
+  else{total=amount;base=r===0?total:total*100/(100+r);gst=total-base;}
+  return {base:base,gst:gst,total:total};
+}
+function calc(){
+  var amt=num('amount');
+  var res=compute(amt,rate,mode);
+  var cgst=res.gst/2, sgst=res.gst/2;
+  document.getElementById('totalVal').textContent=fmt(res.total);
+  document.getElementById('totalLabel').textContent=mode==='ex'?'Total payable (GST ke saath)':'Total price (jo customer ne diya)';
+  document.getElementById('totalNote').textContent=fmt(res.base)+' base + '+fmt(res.gst)+' GST @ '+rate+'%';
+  document.getElementById('rBase').textContent=fmt(res.base);
+  document.getElementById('rGst').textContent=fmt(res.gst);
+  document.getElementById('rRate').textContent=rate;
+  document.getElementById('rTotal').textContent=fmt(res.total);
+  document.querySelectorAll('.halfRate').forEach(function(e){e.textContent=(rate/2);});
+  document.getElementById('igstRate').textContent=rate;
+  document.getElementById('rCgst').textContent=fmt(cgst);
+  document.getElementById('rSgst').textContent=fmt(sgst);
+  document.getElementById('rIgst').textContent=fmt(res.gst);
+  document.getElementById('splitIntra').style.display=supply==='intra'?'block':'none';
+  document.getElementById('splitInter').style.display=supply==='inter'?'block':'none';
+  var pct=res.total>0?(res.base/res.total*100):100;
+  document.getElementById('barBase').style.width=pct+'%';
+  document.getElementById('barTax').style.width=(100-pct)+'%';
+  if(mode==='ex'){document.getElementById('formulaBox').textContent='Formula: GST = '+fmt(res.base)+' × '+rate+'% = '+fmt(res.gst)+' · Total = '+fmt(res.base)+' + '+fmt(res.gst)+' = '+fmt(res.total);}
+  else{document.getElementById('formulaBox').textContent='Formula: Base = '+fmt(res.total)+' × 100 ÷ '+(100+rate)+' = '+fmt(res.base)+' · GST = '+fmt(res.total)+' − '+fmt(res.base)+' = '+fmt(res.gst);}
+  // comparison table — always on base-equivalent: if inclusive, use derived base as common base
+  var commonBase=res.base;
+  var rows=[5,12,18,28].map(function(r){
+    var g=commonBase*r/100, t=commonBase+g;
+    var hl=r===rate?' class="hl"':'';
+    return '<tr'+hl+'><td><strong>'+r+'%</strong></td><td class="num">'+fmt(commonBase)+'</td><td class="num">'+fmt(g)+'</td><td class="num hide-m">'+fmt(g/2)+'</td><td class="num hide-m">'+fmt(g/2)+'</td><td class="num">'+fmt(t)+'</td></tr>';
+  }).join('');
+  document.getElementById('compBody').innerHTML=rows;
+}
+function copyResult(){
+  var amt=num('amount');var res=compute(amt,rate,mode);
+  var split=supply==='intra'?('CGST ('+(rate/2)+'%): '+fmt(res.gst/2)+'\nSGST ('+(rate/2)+'%): '+fmt(res.gst/2)):('IGST ('+rate+'%): '+fmt(res.gst));
+  var txt='GST Calculation\nBase Amount: '+fmt(res.base)+'\nGST @ '+rate+'%: '+fmt(res.gst)+'\n'+split+'\nTotal: '+fmt(res.total);
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(showCopied);}else{showCopied();}
+}
+function showCopied(){var m=document.getElementById('copyMsg');m.style.display='block';setTimeout(function(){m.style.display='none';},2500);}
+calc();
+</script>
+<!-- Gmail signup — Good Morning Kids email list (email-link verified) -->
+<section id="gmk-email-signup" style="max-width:640px;margin:28px auto 0;padding:20px 16px;text-align:center;border-top:2px dashed #f0c040;">
+<h3 style="margin:0 0 6px;font-size:18px;">Apna Gmail daalo — verify karo, naye free tools aur updates ki khabar pao</h3>
+<p style="margin:0 0 12px;color:#666;font-size:14px;">Hum aapke Gmail par ek verification link bhejenge. Link par click karte hi aapka email save ho jayega. Koi spam nahi.</p>
+<form id="gmkEmailForm" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+<input id="gmkEmailInput" type="email" required placeholder="aapka@gmail.com" style="flex:1;min-width:220px;max-width:320px;padding:10px 12px;font-size:15px;border:1px solid #ccc;border-radius:8px;" />
+<button type="submit" style="padding:10px 18px;font-size:15px;background:#f59e0b;color:#fff;border:none;border-radius:8px;cursor:pointer;">Verification Link Bhejo</button>
+</form>
+<p id="gmkEmailMsg" style="margin:10px 0 0;font-size:14px;min-height:20px;"></p>
+</section>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+var TOOL_NAME = "gst-calculator";
+var TOOL_URL = "https://abcd842323-spec.github.io/gst-calculator/";
+var form = document.getElementById("gmkEmailForm");
+var input = document.getElementById("gmkEmailInput");
+var msg = document.getElementById("gmkEmailMsg");
+var fbDb = null;
+function show(color, text){ msg.style.color = color; msg.textContent = text; }
+function initFb(){
+if (typeof firebase === "undefined") return false;
+if (!firebase.apps || !firebase.apps.length) {
+firebase.initializeApp({apiKey:"AIzaSyBwPT-AfPvxH3AbEJ8IMPDVFwieZfvv-yg",authDomain:"good-morning-kids-17b08.firebaseapp.com",projectId:"good-morning-kids-17b08",storageBucket:"good-morning-kids-17b08.firebasestorage.app",messagingSenderId:"805083378699",appId:"1:805083378699:web:a904d43f2cd2933aedc30e"});
+}
+fbDb = firebase.firestore();
+return true;
+}
+function handleEmailLink(){
+if (typeof firebase === "undefined") return;
+if (!firebase.auth().isSignInWithEmailLink(window.location.href)) return;
+var email = window.localStorage.getItem("gmkEmailForSignIn");
+if (!email) {
+email = window.prompt("Verification ke liye apna Gmail dobara daalo:");
+if (!email) return;
+}
+if (!initFb()) { show("#c00", "Verify nahi ho paya — internet check karke dobara try karo."); return; }
+firebase.auth().signInWithEmailLink(email, window.location.href).then(function(){
+window.localStorage.removeItem("gmkEmailForSignIn");
+return fbDb.collection("toolEmails").add({email: email.trim().toLowerCase(), tool: TOOL_NAME, verified: true, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
+}).then(function(){
+show("green", "Gmail verify ho gaya, dhanyavaad! \u2713");
+if (form) form.querySelector("button").disabled = true;
+}).catch(function(){
+show("#c00", "Verification link kaam nahi kar raha — naya link mangne ke liye dobara Gmail daalo.");
+});
+}
+form.addEventListener("submit", function(e){
+e.preventDefault();
+var email = input.value.trim().toLowerCase();
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { show("#c00", "Sahi Gmail daalo — jaise aapka@gmail.com"); return; }
+show("#666", "Verification link bhej rahe hain…");
+if (!initFb()) { show("#c00", "Abhi link nahi bhej paye — internet check karke dobara try karo."); return; }
+var actionCodeSettings = { url: TOOL_URL, handleCodeInApp: true };
+firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings).then(function(){
+window.localStorage.setItem("gmkEmailForSignIn", email);
+show("green", "Verification link bhej diya! Apne Gmail me link kholo aur verify karo — tabhi aapka email save hoga.");
+form.querySelector("button").disabled = true;
+}).catch(function(){
+show("#c00", "Link nahi bhej paye — dobara try karo.");
+});
+});
+if (document.readyState === "loading") {
+document.addEventListener("DOMContentLoaded", handleEmailLink);
+} else {
+handleEmailLink();
+}
+})();
+</script>
+
+
+<div style="text-align:center;padding:18px 12px 28px;color:#666;font-size:14px;">By Mahesh Kumar</div>
+
+<!-- Adsterra ads (GitHub Pages site 6231775) -->
+<script async fetchpriority="high" data-cfasync="false" src="https://bauval.org/21/f2aab14137246b166ffab0c2f48eb225"></script>
+<div id="container-f2aab14137246b166ffab0c2f48eb225"></div>
+<script data-cfasync="false" src="https://bauval.org/14/b26c99f8ab4002c619dc2e982f8e61aa"></script>
+</body>
+</html>
